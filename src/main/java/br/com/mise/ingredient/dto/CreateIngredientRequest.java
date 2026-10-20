@@ -1,4 +1,10 @@
 package br.com.mise.ingredient.dto;
 
-public class CreateIngredientRequest {
-}
+import br.com.mise.ingredient.entity.MeasurementUnit;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record CreateIngredientRequest(
+        @NotBlank String name,
+        @NotNull MeasurementUnit unit
+) { }
