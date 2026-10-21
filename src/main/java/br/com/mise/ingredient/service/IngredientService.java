@@ -2,10 +2,11 @@ package br.com.mise.ingredient.service;
 
 import br.com.mise.ingredient.dto.CreateIngredientRequest;
 import br.com.mise.ingredient.entity.Ingredient;
-import br.com.mise.ingredient.resource.IngredientRepository;
+import br.com.mise.ingredient.exception.IngredientAlreadyExistsException;
+import br.com.mise.ingredient.repository.IngredientRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-
+import jakarta.transaction.Transactional;
 import java.util.Locale;
 
 @ApplicationScoped
@@ -14,6 +15,7 @@ public class IngredientService {
     @Inject
     IngredientRepository repository;
 
+    @Transactional
     public Ingredient create(CreateIngredientRequest request) {
 
         String name = request.name().trim();
@@ -32,7 +34,7 @@ public class IngredientService {
                 normalizedName) > 0;
 
         if (alreadyExists) {
-            throw new IllegalArgumentException("Ingredient already exists");
+            throw new IngredientAlreadyExistsException(name);
         }
 
         Ingredient ingredient = new Ingredient(
@@ -42,7 +44,5 @@ public class IngredientService {
 
         repository.persist(ingredient);
         return ingredient;
-
     }
-
 }

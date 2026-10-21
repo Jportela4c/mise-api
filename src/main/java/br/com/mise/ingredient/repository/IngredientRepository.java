@@ -1,5 +1,5 @@
 
-package br.com.mise.ingredient.resource;
+package br.com.mise.ingredient.repository;
 
 import br.com.mise.ingredient.entity.Ingredient;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
