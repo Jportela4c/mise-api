@@ -1,7 +1,6 @@
 package br.com.mise.ingredient.exception;
 
-import common.exception.BusinessException;
-import common.exception.BusinessExceptionMapper;
+import br.com.mise.common.exception.BusinessException;
 import jakarta.ws.rs.core.Response;
 
 public class IngredientAlreadyExistsException

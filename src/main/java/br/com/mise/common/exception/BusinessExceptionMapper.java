@@ -1,6 +1,6 @@
-package common.exception;
+package br.com.mise.common.exception;
 
-import common.dto.ErrorResponse;
+import br.com.mise.common.dto.ErrorResponse;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;

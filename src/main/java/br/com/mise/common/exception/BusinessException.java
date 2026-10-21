@@ -1,4 +1,4 @@
-package common.exception;
+package br.com.mise.common.exception;
 
 import jakarta.ws.rs.core.Response;
 import lombok.Getter;
