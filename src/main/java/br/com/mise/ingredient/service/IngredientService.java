@@ -3,6 +3,7 @@ package br.com.mise.ingredient.service;
 import br.com.mise.ingredient.dto.CreateIngredientRequest;
 import br.com.mise.ingredient.entity.Ingredient;
 import br.com.mise.ingredient.exception.IngredientAlreadyExistsException;
+import br.com.mise.ingredient.exception.IngredientNotFoundException;
 import br.com.mise.ingredient.repository.IngredientRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -33,5 +34,12 @@ public class IngredientService {
 
         repository.persist(ingredient);
         return ingredient;
+    }
+
+    public Ingredient findById(Long id) {
+
+        return repository
+                .findByIdOptional(id)
+                .orElseThrow(() -> new IngredientNotFoundException(id));
     }
 }
