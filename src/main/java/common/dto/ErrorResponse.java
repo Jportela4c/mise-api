@@ -1,4 +1,4 @@
-package br.com.mise.ingredient.dto;
+package common.dto;
 
 public record ErrorResponse(
         String code,

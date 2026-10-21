@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import java.util.Locale;
 
+
 @ApplicationScoped
 public class IngredientService {
 
