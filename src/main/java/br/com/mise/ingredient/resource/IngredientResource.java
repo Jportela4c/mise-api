@@ -4,6 +4,7 @@ import br.com.mise.ingredient.dto.CreateIngredientRequest;
 import br.com.mise.ingredient.dto.IngredientResponse;
 import br.com.mise.ingredient.entity.Ingredient;
 import br.com.mise.ingredient.service.IngredientService;
+import io.quarkus.panache.common.Sort;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.GET;
@@ -11,6 +12,8 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.Response;
+
+import java.util.List;
 
 @Path("/api/v1/ingredients")
 public class IngredientResource {
@@ -27,6 +30,20 @@ public class IngredientResource {
 
         return Response
                 .ok(response)
+                .build();
+    }
+
+    @GET
+    public Response findAll() {
+        List<Ingredient> ingredients = service.findAll();
+
+        List<IngredientResponse> response = ingredients
+                .stream()
+                .map(IngredientResponse::from) //.map(ingredient -> IngredientResponse.from(ingredient))
+                .toList();
+
+        return Response
+                .ok(ingredients)
                 .build();
     }
 

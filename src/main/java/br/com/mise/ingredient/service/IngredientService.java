@@ -5,9 +5,12 @@ import br.com.mise.ingredient.entity.Ingredient;
 import br.com.mise.ingredient.exception.IngredientAlreadyExistsException;
 import br.com.mise.ingredient.exception.IngredientNotFoundException;
 import br.com.mise.ingredient.repository.IngredientRepository;
+import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+
+import java.util.List;
 import java.util.Locale;
 
 @ApplicationScoped
@@ -41,5 +44,11 @@ public class IngredientService {
         return repository
                 .findByIdOptional(id)
                 .orElseThrow(() -> new IngredientNotFoundException(id));
+    }
+
+    public List<Ingredient> findAll(){
+        return repository
+                .findAll(Sort.by("name"))
+                .list();
     }
 }
