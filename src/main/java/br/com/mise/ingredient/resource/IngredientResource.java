@@ -2,15 +2,13 @@ package br.com.mise.ingredient.resource;
 
 import br.com.mise.ingredient.dto.CreateIngredientRequest;
 import br.com.mise.ingredient.dto.IngredientResponse;
+import br.com.mise.ingredient.dto.UpdateIngredientRequest;
 import br.com.mise.ingredient.entity.Ingredient;
 import br.com.mise.ingredient.service.IngredientService;
 import io.quarkus.panache.common.Sort;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
@@ -55,6 +53,20 @@ public class IngredientResource {
         return Response
                 .status(Response.Status.CREATED)
                 .entity(IngredientResponse.from(ingredient))
+                .build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response update(
+            @PathParam("id") Long id,
+            @Valid UpdateIngredientRequest request
+    ) {
+        Ingredient ingredient = service.update(id, request);
+        IngredientResponse response = IngredientResponse.from(ingredient);
+
+        return Response
+                .ok(response)
                 .build();
     }
 }
