@@ -1,4 +1,54 @@
 package br.com.mise.ingredient.service;
 
+import br.com.mise.ingredient.dto.CreateIngredientRequest;
+import br.com.mise.ingredient.entity.Ingredient;
+import br.com.mise.ingredient.exception.IngredientAlreadyExistsException;
+import br.com.mise.ingredient.exception.IngredientNotFoundException;
+import br.com.mise.ingredient.repository.IngredientRepository;
+import io.quarkus.panache.common.Sort;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+
+import java.util.List;
+import java.util.Locale;
+
+@ApplicationScoped
 public class IngredientService {
+
+    @Inject
+    IngredientRepository repository;
+
+    @Transactional
+    public Ingredient create(CreateIngredientRequest request) {
+
+        String name = request.name().trim();
+        String normalizedName = name.toLowerCase(Locale.ROOT);
+
+        boolean alreadyExists = repository.count(
+                "lower(name) = ?1",
+                normalizedName) > 0;
+
+        if (alreadyExists) {
+            throw new IngredientAlreadyExistsException(name);
+        }
+
+        Ingredient ingredient = new Ingredient(name, request.unit());
+
+        repository.persist(ingredient);
+        return ingredient;
+    }
+
+    public Ingredient findById(Long id) {
+
+        return repository
+                .findByIdOptional(id)
+                .orElseThrow(() -> new IngredientNotFoundException(id));
+    }
+
+    public List<Ingredient> findAll(){
+        return repository
+                .findAll(Sort.by("name"))
+                .list();
+    }
 }
