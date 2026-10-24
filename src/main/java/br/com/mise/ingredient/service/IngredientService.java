@@ -87,4 +87,17 @@ public class IngredientService {
         return ingredient;
     }
 
+    @Transactional
+    public void delete(Long id) {
+        /*
+        Ingredient ingredient = findById(id);
+        repository.delete(ingredient);
+        */
+        boolean deleted = repository.deleteById(id);
+
+        if (!deleted) {
+            throw new IngredientNotFoundException(id);
+        }
+
+    }
 }

@@ -69,4 +69,12 @@ public class IngredientResource {
                 .ok(response)
                 .build();
     }
+
+    @DELETE
+    @Path("/{id}")
+    public Response delete(@PathParam("id") Long id) {
+        service.delete(id);
+
+        return Response.noContent().build();
+    }
 }

@@ -397,6 +397,55 @@ public class IngredientResourceTest {
     }
 
 
+    @Test
+    void shouldDeleteIngredient() {
+
+        Long id = given()
+                .contentType(ContentType.JSON)
+                .body("""
+                    {
+                      "name": "INGREDIENTE TESTE EXCLUSAO",
+                      "unit": "GRAM"
+                    }
+                    """)
+                .when()
+                .post("/api/v1/ingredients")
+                .then()
+                .statusCode(201)
+                .extract()
+                .jsonPath()
+                .getLong("id");
+
+        given()
+                .pathParam("id", id)
+                .when()
+                .delete("/api/v1/ingredients/{id}")
+                .then()
+                .statusCode(204);
+
+        given()
+                .pathParam("id", id)
+                .when()
+                .get("/api/v1/ingredients/{id}")
+                .then()
+                .statusCode(404)
+                .body("code", equalTo("INGREDIENT_NOT_FOUND"));
+    }
+
+    @Test
+    void shouldReturn404WhenDeletingNonexistentIngredient() {
+
+        given()
+                .pathParam("id", Long.MAX_VALUE)
+                .when()
+                .delete("/api/v1/ingredients/{id}")
+                .then()
+                .statusCode(404)
+                .body("code", equalTo("INGREDIENT_NOT_FOUND"));
+    }
+
+
+
 
 
 
